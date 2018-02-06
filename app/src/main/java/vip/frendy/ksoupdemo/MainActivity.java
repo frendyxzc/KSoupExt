@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.webkit.WebView;
 
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -27,9 +26,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         final KSoup soup = new KSoup(this);
-        soup.setKSoupListener(new IKSoupListener() {
+        soup.addJavascriptInterface(new IKSoupListener() {
             @Override
-            public void onInnerHTMLLoaded(Integer action, String data) {
+            public void onInnerHtmlLoaded(Integer action, String data) {
                 if(action == JSInterface.Companion.getLOAD_INNER_HTML()) {
                     Elements elements = soup.parseAList(data);
                     if(elements == null) return;
@@ -47,7 +46,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-        soup.addJavascriptInterface();
         soup.loadUrl(URL_VIDEO_LIST);
     }
 }

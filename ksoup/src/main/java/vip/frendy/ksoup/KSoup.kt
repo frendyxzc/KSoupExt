@@ -2,9 +2,6 @@ package vip.frendy.ksoup
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.text.Html
-import android.view.View
-import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import org.jsoup.Jsoup
@@ -45,15 +42,13 @@ open class KSoup(context: Context) {
     }
 
     @SuppressLint("JavascriptInterface")
-    fun addJavascriptInterface() {
+    fun addJavascriptInterface(listener: IKSoupListener) {
+        mListener = listener
+
         mJsInterface = JSInterface()
         mJsInterface?.setListener(mListener)
 
         mWebView?.addJavascriptInterface(mJsInterface, "android")
-    }
-
-    fun setKSoupListener(listener: IKSoupListener) {
-        mListener = listener
     }
 
     fun loadUrl(url: String) {
@@ -61,7 +56,7 @@ open class KSoup(context: Context) {
     }
 
     fun getInnerHTML() {
-        mWebView?.loadUrl("javascript:window.android.onInnerHTMLLoaded(document.body.innerHTML);")
+        mWebView?.loadUrl("javascript:window.android.onInnerHtmlLoaded(document.body.innerHTML);")
     }
 
     fun parseAList(html: String): Elements? {

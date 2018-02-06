@@ -1,7 +1,6 @@
 package vip.frendy.ksoup.interfaces
 
 import android.webkit.JavascriptInterface
-import org.jsoup.Jsoup
 
 /**
  * Created by frendy on 2018/2/6.
@@ -18,7 +17,7 @@ open class JSInterface() {
     }
 
     @JavascriptInterface
-    fun onInnerHTMLLoaded(html: String) {
-        mListener?.onInnerHTMLLoaded(LOAD_INNER_HTML, html)
+    fun onInnerHtmlLoaded(html: String) {
+        mListener?.onInnerHtmlLoaded(LOAD_INNER_HTML, html)
     }
 }
