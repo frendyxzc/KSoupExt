@@ -20,6 +20,8 @@ open class KSoup(context: Context) {
     protected var mListener: IKSoupListener? = null
     protected var mJsInterface: JSInterface? = null
 
+    protected var mDelayInterval = 1000L
+
     init {
         mWebView = WebView(context)
         //初始化
@@ -36,10 +38,16 @@ open class KSoup(context: Context) {
                 super.onPageFinished(view, url)
                 view?.settings?.blockNetworkImage = false
 
+                //监听回调
+                mListener?.onPageFinished(view, url)
                 //获取网页内容
-                postDelayedToUI({ getInnerHTML() }, 1000)
+                postDelayedToUI({ getInnerHTML() }, mDelayInterval)
             }
         }
+    }
+
+    fun setDelayInterval(interval: Long) {
+        mDelayInterval = interval
     }
 
     @SuppressLint("JavascriptInterface")
