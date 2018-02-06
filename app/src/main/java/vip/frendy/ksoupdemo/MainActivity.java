@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onInnerHtmlLoaded(Integer action, String data) {
                 if(action == JSInterface.Companion.getLOAD_INNER_HTML()) {
-                    Elements elements = soup.parseAList(data);
+                    Elements elements = soup.parseListByTag(data, "a");
                     if(elements == null) return;
 
                     for(Element element : elements) {

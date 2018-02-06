@@ -5,6 +5,7 @@ import android.content.Context
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import org.jsoup.Jsoup
+import org.jsoup.nodes.Document
 import org.jsoup.select.Elements
 import vip.frendy.extension.ext.postDelayedToUI
 import vip.frendy.ksoup.interfaces.IKSoupListener
@@ -59,9 +60,14 @@ open class KSoup(context: Context) {
         mWebView?.loadUrl("javascript:window.android.onInnerHtmlLoaded(document.body.innerHTML);")
     }
 
-    fun parseAList(html: String): Elements? {
+    fun parseDocument(html: String): Document? {
         val doc = Jsoup.parse(html)
-        val list = doc.getElementsByTag("a")
+        return doc
+    }
+
+    fun parseListByTag(html: String, tag: String): Elements? {
+        val doc = Jsoup.parse(html)
+        val list = doc.getElementsByTag(tag)
         return list
     }
 }
