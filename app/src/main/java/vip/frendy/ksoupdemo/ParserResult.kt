@@ -1,3 +1,3 @@
 package vip.frendy.ksoupdemo
 
-data class ParserResult(val id: String, val title: String)
+data class ParserResult(val id: String, val title: String, val img: String)

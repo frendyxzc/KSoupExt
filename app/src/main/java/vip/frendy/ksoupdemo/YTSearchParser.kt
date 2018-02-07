@@ -43,14 +43,17 @@ class YTSearchParser<T>(context: Context) {
                                 val href = element.attr("href")
                                 val label = element.attr("aria-label").split(" - ")[0]
 
+                                val imgElements = element.select("img[src~=(?i)\\.jpg]")
+                                val img = if(imgElements.size > 0) imgElements[0].attr("src") else ""
+
                                 if (href.contains("/watch?v")) {
                                     val id = href.replace("/watch?v=", "")
 
                                     if(mParserListener != null) {
-                                        result.add(mParserListener!!.onParserResultWrap(id, label))
+                                        result.add(mParserListener!!.onParserResultWrap(id, label, img))
                                     }
 
-                                    Log.i("ksoup", "** id = $id, title = $label")
+                                    Log.i("ksoup", "** id = $id, title = $label， img = $img")
                                 }
                             }
 
@@ -84,7 +87,7 @@ class YTSearchParser<T>(context: Context) {
     }
 
     interface IParserListener<T> {
-        fun onParserResultWrap(id: String, title: String): T
+        fun onParserResultWrap(id: String, title: String, img: String): T
         fun onParserResult(result: ArrayList<T>)
     }
 }

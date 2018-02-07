@@ -16,8 +16,8 @@ class DemoActivity: AppCompatActivity() {
 
         val parser = YTSearchParser<ParserResult>(this)
         parser.setParserListener(object : YTSearchParser.IParserListener<ParserResult> {
-            override fun onParserResultWrap(id: String, title: String): ParserResult {
-                return ParserResult(id, title)
+            override fun onParserResultWrap(id: String, title: String, img: String): ParserResult {
+                return ParserResult(id, title, img)
             }
             override fun onParserResult(result: ArrayList<ParserResult>) {
 
