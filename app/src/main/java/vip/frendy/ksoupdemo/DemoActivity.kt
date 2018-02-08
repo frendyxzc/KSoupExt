@@ -8,8 +8,6 @@ import android.support.v7.app.AppCompatActivity
  */
 class DemoActivity: AppCompatActivity() {
 
-    var URL_VIDEO_LIST = "https://www.youtube.com/results?sp=EgIQAVAU&search_query=谢霆锋&p=1"
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -23,7 +21,7 @@ class DemoActivity: AppCompatActivity() {
 
             }
         })
-        parser.loadUrl(URL_VIDEO_LIST)
+        parser.loadUrl("陈奕迅", 1)
     }
 
 }

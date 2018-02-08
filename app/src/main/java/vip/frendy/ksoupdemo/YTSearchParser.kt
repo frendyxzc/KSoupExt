@@ -14,6 +14,7 @@ import vip.frendy.ksoup.interfaces.JSInterface
  * Created by frendy on 2018/2/6.
  */
 class YTSearchParser<T>(context: Context) {
+    var URL_VIDEO_SEARCH = "https://www.youtube.com/results?sp=EgIQAVAU"
 
     protected var mSoup: KSoup? = null
     protected var mParserListener: IParserListener<T>? = null
@@ -41,7 +42,16 @@ class YTSearchParser<T>(context: Context) {
 
                             for (element in elements) {
                                 val href = element.attr("href")
-                                val label = element.attr("aria-label").split(" - ")[0]
+
+                                val labels = element.attr("aria-label").split(" - ")
+                                var title = ""
+                                for((i, label) in labels.withIndex()) {
+                                    if(i == 0) {
+                                        title = label
+                                    } else if(i < (labels.size - 2)) {
+                                        title += " - $label"
+                                    }
+                                }
 
                                 val imgElements = element.select("img[src~=(?i)\\.jpg]")
                                 val img = if(imgElements.size > 0) imgElements[0].attr("src") else ""
@@ -50,10 +60,10 @@ class YTSearchParser<T>(context: Context) {
                                     val id = href.replace("/watch?v=", "")
 
                                     if(mParserListener != null) {
-                                        result.add(mParserListener!!.onParserResultWrap(id, label, img))
+                                        result.add(mParserListener!!.onParserResultWrap(id, title, img))
                                     }
 
-                                    Log.i("ksoup", "** id = $id, title = $label， img = $img")
+                                    Log.i("ksoup", "** id = $id, title = $title， img = $img")
                                 }
                             }
 
@@ -75,6 +85,10 @@ class YTSearchParser<T>(context: Context) {
                 }
             }
         })
+    }
+
+    fun loadUrl(key: String, page: Int) {
+        loadUrl("${URL_VIDEO_SEARCH}&search_query=${key}&p=${page}")
     }
 
     fun loadUrl(url: String) {
