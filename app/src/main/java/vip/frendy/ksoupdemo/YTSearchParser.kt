@@ -22,13 +22,17 @@ class YTSearchParser<T>(context: Context) {
     protected var mRetryCount = 0
     protected val RETRY_LIMIT = 5
 
+    protected var mLastTimeStamp = 0L
+
     init {
         mSoup = KSoup(context)
 //        mSoup?.setDelayInterval(500)
 
         mSoup?.addJavascriptInterface(object : IKSoupListener {
             override fun onPageFinished(view: WebView?, url: String?) {
-                Log.i("ksoup", "** ===== finish to load page ====")
+                val now = System.currentTimeMillis()
+                Log.i("ksoup", "** ===== finish to load page ==== cost : ${now - mLastTimeStamp}")
+                mLastTimeStamp = now
             }
             override fun onInnerHtmlLoaded(action: Int?, data: String?) {
                 when(action) {
@@ -77,7 +81,9 @@ class YTSearchParser<T>(context: Context) {
                                 } else {
                                     mParserListener?.onParserResult(result)
 
-                                    Log.i("ksoup", "** ===== finish to load data ====")
+                                    val now = System.currentTimeMillis()
+                                    Log.i("ksoup", "** ===== finish to load data ==== cost : ${now - mLastTimeStamp}")
+                                    mLastTimeStamp = now
                                 }
                             }
                         }
@@ -94,6 +100,7 @@ class YTSearchParser<T>(context: Context) {
     fun loadUrl(url: String) {
         mSoup?.loadUrl(url)
         Log.i("ksoup", "** ===== start to load ==== $url")
+        mLastTimeStamp = System.currentTimeMillis()
     }
 
     fun setParserListener(listener: IParserListener<T>) {

@@ -2,6 +2,8 @@ package vip.frendy.ksoupdemo
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
+import kotlinx.android.synthetic.main.activity_main.*
 
 /**
  * Created by frendy on 2018/2/6.
@@ -18,10 +20,15 @@ class DemoActivity: AppCompatActivity() {
                 return ParserResult(id, title, img)
             }
             override fun onParserResult(result: ArrayList<ParserResult>) {
-
+                Log.i("ksoup", "** ===== data size ==== ${result.size}")
             }
         })
-        parser.loadUrl("陈奕迅", 1)
+
+        go.setOnClickListener {
+            val key = editText.text.toString()
+
+            parser.loadUrl(key, 1)
+        }
     }
 
 }
