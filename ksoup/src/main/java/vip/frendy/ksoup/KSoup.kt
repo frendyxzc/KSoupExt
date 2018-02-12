@@ -16,6 +16,8 @@ import vip.frendy.ksoup.interfaces.JSInterface
  */
 open class KSoup(context: Context) {
 
+    val USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36"
+
     protected var mWebView: WebView? = null
     protected var mListener: IKSoupListener? = null
     protected var mJsInterface: JSInterface? = null
@@ -48,6 +50,10 @@ open class KSoup(context: Context) {
 
     fun setDelayInterval(interval: Long) {
         mDelayInterval = interval
+    }
+
+    fun setUserAgent(userAgent: String? = null) {
+        mWebView?.settings?.userAgentString = if(userAgent != null) userAgent else USER_AGENT
     }
 
     @SuppressLint("JavascriptInterface")
